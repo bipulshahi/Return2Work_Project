@@ -1,0 +1,130 @@
+<!doctype html>
+
+<html>
+
+  <head>
+    <title>Return To Work Prediction</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+      function onClickedReturnDays(){
+
+        //console.log("Submit Button clicked");
+
+        var clyear = document.getElementById('cfy');
+        var agey = document.getElementById('agency');
+        var age = document.getElementById('age');
+        var injgroup = document.getElementById('iag');
+        var bdgroup = document.getElementById('blg');
+        var mechroup = document.getElementById('mcg');
+        var nature = document.getElementById('ng');
+        var major = document.getElementById('major');
+        var gender = document.getElementById('gen');
+        var result = document.getElementById('uireturn')
+
+
+        var url = "http://127.0.0.1:5000/predict_rtw";
+
+        $.post(url, {
+          claimyear: parseFloat(clyear.value),
+          agency:parseFloat(agey.value),
+          age:parseFloat(age.value),
+          injurygroup:injgroup.value,
+          bodygroup:bdgroup.value,
+          mechanismgroup:mechroup.value,
+          nature:nature.value,
+          major:major.value,
+          gender:gender.value
+          
+        },function(data,status){
+          result.innerHTML = data.Estimated_Return;
+
+        });
+      }
+
+    </script>
+
+  </head>
+
+  <body>
+      <form class="form">
+        <h1> Predict Return to Work in case of Accident </h1>
+
+            <h2>Claim Financial Year</h2>
+            <input type="text" id="cfy">
+
+          <h2>Agency NN</h2>
+          <input type="text" id="agency">
+
+          <h2>Age at Accident</h2>
+          <input type="text" id="age">
+
+          <h2>Injury Agency Group</h2>
+          <select id="iag">
+            <option value="">Choose an Option</option>
+            <option>Animal, Human and Biological Agencies</option>
+            <option>Non-powered Handtools, Appliances and Equipment</option>
+            <option>Other Agency</option>
+            <option>Environmental Agencies</option>
+            <option>Mobile Plant and Transport</option>
+            <option>Materials and Substances</option>
+          </select>
+
+
+          <h2>Bodily Location Group</h2>
+          <select id="blg">
+            <option value="">Choose an Option</option>
+            <option>Upper Limbs</option>
+            <option>Lower Limbs</option>
+            <option>Trunk (inc. Back)</option>
+            <option>Multiple Locations</option>
+            <option>Other Body location</option>
+            <option>Non-physical Locations (Psychological)</option>
+          </select>
+
+          <h2>Mechanism Group</h2>
+          <select id="mcg">
+            <option value="">Choose an Option</option>
+            <option>Body Stressing</option>
+            <option>Falls, Slips and Trips of a Person</option>
+            <option>Being Hit by Moving Objects</option>
+            <option>Mental Stress</option>
+            <option>Hitting Objects with a Part of the Body</option>
+            <option>Other Mechanism</option>
+          </select>
+
+          <h2>Nature Group</h2>
+          <select id="ng">
+            <option value="">Choose an Option</option>
+            <option>Sprains, Strains and Dislocations</option>
+            <option>Musculoskeletal System and Connective Tissue</option>
+            <option>Other Nature</option>
+            <option>Contusion and Crushing</option>
+            <option>Mental Disorders</option>
+            <option>Fractures</option>
+          </select>
+
+          <h2>Major</h2>
+          <select id="major">
+            <option value="">Choose an Option</option>
+            <option>Professionals</option>
+            <option>Intermediate Clerical, Sales and Service Workers</option>
+            <option>Other Major</option>
+          </select>
+
+          <h2>Gender</h2>
+          <select id="gen">
+            <option value="">Choose an Option</option>
+            <option>Female</option>
+            <option>Male</option>
+          </select>
+          <br>
+          <br>
+          <div>
+          <button type="submit" onclick="onClickedReturnDays()" name="button">Estimated Return to Work</button>
+          </div>
+          <div id="uireturn" class="result"><h2>Result</h2></div>
+      </form>
+  </body>
+</html>
