@@ -1,11 +1,11 @@
-from flask import Flask,request
+from flask import Flask,request,jsonify
 import util
 
 app = Flask(__name__)
 
 @app.route('/get_column_names')
 def get_column_names():
-    response = {'Data Columns' : util.showColumns()}
+    response = jsonify({'Data Columns' : util.showColumns()})
     return response
 
 @app.route('/predict_rtw',methods=['POST'])
@@ -22,7 +22,9 @@ def predict_rtw():
 
     rtw = util.predict_returnToWorkCategory(cfy,agency,age,iag,blg,mcg,nature,
                                             major,gender)
-    response = {'Estimated_Return' : rtw}
+    response = jsonify({'Estimated_Return' : rtw})
+
+    response.headers.add('Access-Control-Allow-Origin','*')
     return response
 
 app.run()

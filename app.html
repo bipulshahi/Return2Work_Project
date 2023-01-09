@@ -21,7 +21,7 @@
         var nature = document.getElementById('ng');
         var major = document.getElementById('major');
         var gender = document.getElementById('gen');
-        var result = document.getElementById('uireturn')
+        var result = document.getElementById('uireturn');
 
 
         var url = "http://127.0.0.1:5000/predict_rtw";
@@ -36,10 +36,11 @@
           nature:nature.value,
           major:major.value,
           gender:gender.value
-          
-        },function(data,status){
-          result.innerHTML = data.Estimated_Return;
 
+        },function(data,status){
+          console.log(data.Estimated_Return);
+          result.innerHTML = data.Estimated_Return;
+          console.log(status);
         });
       }
 
@@ -122,7 +123,8 @@
           <br>
           <br>
           <div>
-          <button type="submit" onclick="onClickedReturnDays()" name="button">Estimated Return to Work</button>
+          <button class="submit" onclick="onClickedReturnDays()" type="button">
+            Estimated Return to Work</button>
           </div>
           <div id="uireturn" class="result"><h2>Result</h2></div>
       </form>
